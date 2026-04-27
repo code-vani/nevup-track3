@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  // ✅ FIX: seed/data.json ko Vercel standalone build mein include karo
+  outputFileTracingIncludes: {
+    '/api/local/**': ['./seed/**'],
+  },
   compress: true,
   poweredByHeader: false,
   // Inline critical CSS to avoid render-blocking stylesheets

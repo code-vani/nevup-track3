@@ -1,5 +1,6 @@
 import type { Trade, SessionSummary, BehavioralMetrics, BehavioralProfile, HeatmapDay, Trader } from "@/types";
-import seedJson from "../../seed/data.json";
+// ✅ FIX: data.json ab src/data/ mein hai (seed/ se copy kiya)
+import seedJson from "@/data/data.json";
 
 export const TRADERS: Trader[] = [
   { userId: "f412f236-4edc-47a2-8f54-8763a6ed2ce8", name: "Alex Mercer", pathology: "revenge_trading" },
