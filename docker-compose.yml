@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_BASE_URL=http://prism:4010
+    depends_on:
+      - prism
+
+  prism:
+    image: stoplight/prism:4
+    command: mock /data/nevup_openapi.yaml --host 0.0.0.0 --port 4010
+    ports:
+      - "4010:4010"
+    volumes:
+      - ./seed:/data

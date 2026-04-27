@@ -1,0 +1,6 @@
+node_modules/
+.next/
+lhci-results/
+tmp-lhci-chrome/
+*.log
+.env.local

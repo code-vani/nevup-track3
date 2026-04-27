@@ -1,0 +1,14 @@
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="200" fill="#08090c"/>
+  <!-- card -->
+  <rect x="16" y="16" width="768" height="168" rx="12" fill="#0e1117" stroke="#1e2535" stroke-width="1"/>
+  <!-- error icon -->
+  <text x="400" y="80" font-size="40" text-anchor="middle" font-family="sans-serif">⚠️</text>
+  <!-- "Failed to load" title -->
+  <text x="400" y="110" font-family="-apple-system,sans-serif" font-size="16" font-weight="700" fill="#ff4d6a" text-anchor="middle">Failed to load</text>
+  <!-- message -->
+  <text x="400" y="132" font-family="-apple-system,sans-serif" font-size="13" fill="#6b7590" text-anchor="middle">Could not fetch heatmap data from API</text>
+  <!-- retry button -->
+  <rect x="336" y="148" width="128" height="28" rx="6" fill="#141820" stroke="#2d3a52" stroke-width="1"/>
+  <text x="400" y="167" font-family="-apple-system,sans-serif" font-size="13" fill="#e8eaf0" text-anchor="middle">↻  Try again</text>
+</svg>
