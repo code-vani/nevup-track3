@@ -1,4 +1,5 @@
 import type { Trade, SessionSummary, BehavioralMetrics, BehavioralProfile, HeatmapDay, Trader } from "@/types";
+import seedJson from "../../seed/data.json";
 
 export const TRADERS: Trader[] = [
   { userId: "f412f236-4edc-47a2-8f54-8763a6ed2ce8", name: "Alex Mercer", pathology: "revenge_trading" },
@@ -20,35 +21,6 @@ export interface SeedRow {
   status: string; outcome: string | null; pnl: number | null; planAdherence: number | null;
   emotionalState: string | null; entryRationale: string | null; revengeFlag: boolean;
   groundTruthPathologies: string;
-}
-
-function parseCSVFull(raw: string): SeedRow[] {
-  const lines = raw.trim().split("\n");
-  const headers = lines[0].split(",").map(h => h.trim());
-  return lines.slice(1).map(line => {
-    const vals: string[] = [];
-    let cur = "", inQ = false;
-    for (const ch of line) {
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === "," && !inQ) { vals.push(cur.trim()); cur = ""; }
-      else cur += ch;
-    }
-    vals.push(cur.trim());
-    const obj: Record<string, string> = {};
-    headers.forEach((h, i) => { obj[h] = (vals[i] || "").trim(); });
-    return {
-      tradeId: obj.tradeId, userId: obj.userId, traderName: obj.traderName,
-      sessionId: obj.sessionId, asset: obj.asset, assetClass: obj.assetClass,
-      direction: obj.direction, entryPrice: parseFloat(obj.entryPrice),
-      exitPrice: obj.exitPrice ? parseFloat(obj.exitPrice) : null,
-      quantity: parseFloat(obj.quantity), entryAt: obj.entryAt,
-      exitAt: obj.exitAt || null, status: obj.status, outcome: obj.outcome || null,
-      pnl: obj.pnl ? parseFloat(obj.pnl) : null,
-      planAdherence: obj.planAdherence ? parseInt(obj.planAdherence) : null,
-      emotionalState: obj.emotionalState || null, entryRationale: obj.entryRationale || null,
-      revengeFlag: obj.revengeFlag === "true", groundTruthPathologies: obj.groundTruthPathologies,
-    } as SeedRow;
-  });
 }
 
 export function rowToTrade(r: SeedRow): Trade {
@@ -138,13 +110,11 @@ export function buildProfile(rows: SeedRow[], userId: string): BehavioralProfile
 
 export function buildHeatmap(rows: SeedRow[], userId: string): HeatmapDay[] {
   const userRows = rows.filter(r=>r.userId===userId);
-  // Track multiple sessions per day, pick latest by entryAt timestamp
   const byDay = new Map<string,{sessionId:string;latestAt:string;pnl:number;count:number;adherence:number[]}>();
   for (const r of userRows) {
     const day=r.entryAt.slice(0,10);
     if(!byDay.has(day))byDay.set(day,{sessionId:r.sessionId,latestAt:r.entryAt,pnl:0,count:0,adherence:[]});
     const d=byDay.get(day)!;
-    // If this trade belongs to a later session (later timestamp), use that sessionId
     if(r.entryAt > d.latestAt){ d.sessionId=r.sessionId; d.latestAt=r.entryAt; }
     d.pnl+=r.pnl||0; d.count++; if(r.planAdherence)d.adherence.push(r.planAdherence);
   }
@@ -157,14 +127,27 @@ export function buildHeatmap(rows: SeedRow[], userId: string): HeatmapDay[] {
 let _rows: SeedRow[] | null = null;
 export async function getSeedRows(): Promise<SeedRow[]> {
   if (_rows) return _rows;
-  if (typeof window === "undefined") {
-    try {
-      const fs = await import("fs");
-      const path = await import("path");
-      const csvPath = path.join(process.cwd(), "seed", "nevup_seed_dataset.csv");
-      const raw = fs.readFileSync(csvPath, "utf-8");
-      _rows = parseCSVFull(raw);
-    } catch { _rows = []; }
-  } else { _rows = []; }
+  _rows = (seedJson as any[]).map(obj => ({
+    tradeId: obj.tradeId,
+    userId: obj.userId,
+    traderName: obj.traderName,
+    sessionId: obj.sessionId,
+    asset: obj.asset,
+    assetClass: obj.assetClass,
+    direction: obj.direction,
+    entryPrice: parseFloat(obj.entryPrice),
+    exitPrice: obj.exitPrice ? parseFloat(obj.exitPrice) : null,
+    quantity: parseFloat(obj.quantity),
+    entryAt: obj.entryAt,
+    exitAt: obj.exitAt || null,
+    status: obj.status,
+    outcome: obj.outcome || null,
+    pnl: obj.pnl ? parseFloat(obj.pnl) : null,
+    planAdherence: obj.planAdherence ? parseInt(obj.planAdherence) : null,
+    emotionalState: obj.emotionalState || null,
+    entryRationale: obj.entryRationale || null,
+    revengeFlag: obj.revengeFlag === "true",
+    groundTruthPathologies: obj.groundTruthPathologies,
+  })) as SeedRow[];
   return _rows;
 }
