@@ -1,5 +1,7 @@
 # 🚀 NevUp Track 3 — System of Engagement
 
+🌐 **Live Demo:** https://nevup-track3.vercel.app/
+
 Post-session debrief flow + behavioural dashboard for retail day traders.
 Built to help traders analyze decisions, identify behavioral patterns, and improve performance over time.
 
@@ -8,6 +10,7 @@ Built to help traders analyze decisions, identify behavioral patterns, and impro
 ## ✨ Features
 
 * 📊 **90-day Heatmap Dashboard** (custom SVG, no external libraries)
+
 * 🧠 **5-Step Debrief Flow**
 
   * Trade Replay
@@ -15,13 +18,16 @@ Built to help traders analyze decisions, identify behavioral patterns, and impro
   * Rule Adherence
   * AI Coaching
   * Save Session
+
 * 🤖 **Real-time AI Coaching (SSE)**
 
   * Streaming responses
   * Auto-reconnect with exponential backoff
+
 * 📈 **10 Trader Profiles**
 
   * Preloaded behavioral patterns from dataset
+
 * ⚡ **Robust UI States**
 
   * Loading skeletons
@@ -34,15 +40,31 @@ Built to help traders analyze decisions, identify behavioral patterns, and impro
 
 ### 📊 Heatmap Dashboard
 
-![Heatmap](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/screenshots/heatmap-loading.svg)
+![Heatmap](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/heatmap.png)
 
-### 🧠 Debrief Flow
+### 📊 Dashboard
 
-![Debrief](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/screenshots/debrief-loading.svg)
+![Dashboard](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/dashboard.png)
 
-### 🤖 Coaching Panel
+### 🧠 Emotions Tracking
 
-![Coaching](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/screenshots/coaching-loading.svg)
+![Emotions](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/emotions.png)
+
+### 🤖 AI Coaching
+
+![Coach](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/coach.png)
+
+### 📈 Planning
+
+![Plan](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/plan.png)
+
+### 🔍 Reflection
+
+![Reflect](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/reflect.png)
+
+### 🎬 Trade Replay
+
+![Trade Replay](https://raw.githubusercontent.com/code-vani/nevup-track3/main/public/trade%20replay.png)
 
 ---
 
@@ -80,8 +102,6 @@ npm run dev
 ---
 
 ## 🧪 Lighthouse CI
-
-Run performance and accessibility audits:
 
 ```bash
 npm run build
@@ -126,22 +146,14 @@ HTTP/1.1 403 {"error":"FORBIDDEN","message":"Cross-tenant access denied."}
 
 ```
 src/
- ├── app/              # Routes & pages
- ├── components/       # UI components
- ├── lib/              # Utilities (JWT, seed data)
- ├── types/            # Type definitions
-public/screenshots/    # UI screenshots
-seed/                  # Dataset & API schema
+ ├── app/
+ ├── components/
+ ├── lib/
+ ├── types/
+public/
+ └── (images here)
+seed/
 ```
-
----
-
-## 📌 Highlights
-
-* End-to-end working product
-* Handles real-world edge cases (network failure, retries, empty states)
-* Clean architecture with modular components
-* Focus on performance, UX, and reliability
 
 ---
 
